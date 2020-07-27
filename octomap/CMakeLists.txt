@@ -1,4 +1,4 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.0.2)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 PROJECT( octomap )
 
 include(CTest)
@@ -47,6 +47,8 @@ foreach( OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES} )
   SET( CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${BASE_DIR}/lib )
   SET( CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${BASE_DIR}/bin )
 endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
+
+find_package(ament_cmake REQUIRED)
 
 set(INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/include")
 INCLUDE_DIRECTORIES(${INCLUDE_DIRS})
@@ -162,6 +164,13 @@ IF(DOXYGEN_FOUND)
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     COMMENT "Generating documentation (Doxygen) at location ${PROJECT_SOURCE_DIR}/doc/html/")
 ENDIF(DOXYGEN_FOUND)
+
+install(DIRECTORY include/
+  DESTINATION include/
+)
+
+ament_export_include_directories(include)
+ament_package()
 
 # Needs to be last statement:
 INCLUDE(CPackSettings)
